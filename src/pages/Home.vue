@@ -1,48 +1,105 @@
 <template>
     <div class="container">
-        <Navbar :title="'Home'" link="/"></Navbar>
         <div class="home">
             <div v-for="value in products" :key="value?.code">
-                <CardProduct :title="value?.name" :image="value?.image" />
+                <CardProduct :title="value?.name" :image="value?.image" :rating="value?.rating"
+                    :priceInCents="value?.priceInCents" :salePriceInCents="value?.salePriceInCents">
+                    <template #button>
+                        <ButtonIcon icon="favorite"
+                            :class="'custom-button' + (isCheckWishlist[value?.code] ? ' active' : '')" iconSize="18px"
+                            :handleClick="() => handleFavoriteClick(value?.code)" />
+                    </template>
+                </CardProduct>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+
+import ButtonIcon from '@/components/ButtonIcon/ButtonIcon.vue';
 import CardProduct from '@/components/CardProduct/CardProduct.vue';
-import Navbar from '@/components/Navbar/Navbar.vue';
 import { onMounted, ref } from 'vue';
+import { setLocalStorage, getLocalStorage } from '../utils/localStorage';
+import { API_BASE_URL } from '@/utils/api';
+import type { Product } from '@/types/interfaces';
 
-const products = ref([]);
+export interface WishlistState {
+    [code: string]: boolean;
+}
 
-const start = async () => {
+const products = ref<Product[]>([]);
+const isCheckWishlist = ref<WishlistState>({});
+
+const start = async (): Promise<void> => {
     try {
-        const response = await fetch('http://localhost:3000/products');
-
+        const response = await fetch(`${API_BASE_URL}/products`);
         if (response?.status === 200) {
             const data = await response.json();
-            products.value = data.products;
+            products.value = data.products as Product[];
         }
     } catch (error) {
         console.error('Error fetching products:', error);
     }
 };
 
+const validateWishlist = (): void => {
+    const itemsWishlist: string[] = getLocalStorage('wishlist') || [];
+    itemsWishlist.forEach(item => {
+        isCheckWishlist.value[item] = true;
+    });
+};
+
 onMounted(() => {
     start();
+    validateWishlist();
 });
 
+const handleFavoriteClick = (code: string): void => {
+    isCheckWishlist.value[code] = !isCheckWishlist.value[code];
+
+    let itemsWishlist: string[] = getLocalStorage('wishlist') || [];
+
+    if (isCheckWishlist.value[code]) {
+        if (!itemsWishlist.includes(code)) {
+            itemsWishlist.push(code);
+            setLocalStorage('wishlist', itemsWishlist);
+        }
+    } else {
+        itemsWishlist = itemsWishlist.filter(item => item !== code);
+        setLocalStorage('wishlist', itemsWishlist);
+    }
+};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home {
     margin: 20px auto;
     max-width: 900px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    gap: 1.5rem;
     justify-content: center;
+
+    .custom-button {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(150, 150, 150, 1);
+        position: absolute;
+        top: 5px;
+        right: 1px;
+        z-index: 2;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .active {
+        background-color: $active-color;
+    }
 }
 
 @media (max-width: 900px) {
