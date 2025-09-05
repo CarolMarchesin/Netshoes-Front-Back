@@ -11,13 +11,13 @@
   "start": "run-p backend frontend",
   "backend": "node backend/index.js",
   "frontend": "npm run dev",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "test:unit": "vitest",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+  "build": "run-p type-check \"build-only {@}\" --",
+  "preview": "vite preview",
+  "test:unit": "vitest",
+  "build-only": "vite build",
+  "type-check": "vue-tsc --build",
+  "lint": "eslint . --fix",
+  "format": "prettier --write src/"
   },
   "dependencies": {
     "cors": "^2.8.5",
