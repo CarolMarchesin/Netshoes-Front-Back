@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Wishlist from '../pages/Wishlist.vue';
+import WishlistPage from '../pages/WishlistPage.vue';
 import CardProduct from '../components/CardProduct/CardProduct.vue';
 import ButtonIcon from '../components/ButtonIcon/ButtonIcon.vue';
 
@@ -25,11 +25,11 @@ vi.stubGlobal('fetch', vi.fn(async () => ({
   json: async () => (mockProducts)
 })));
 
-describe('Wishlist.vue', () => {
+describe('WishlistPage.vue', () => {
   let wrapper;
 
   beforeEach(async () => {
-    wrapper = mount(Wishlist, {
+    wrapper = mount(WishlistPage, {
       global: {
         components: { CardProduct, ButtonIcon }
       }

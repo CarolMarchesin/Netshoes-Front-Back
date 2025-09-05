@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Loading v-if="isLoading" />
+    <AppLoading v-if="isLoading" />
 
     <div v-else-if="!isLoading && wishlist.length > 0" class="header">
       <div class="wishlist" v-if="wishlist.length > 0">
@@ -30,7 +30,7 @@ import CardProduct from '@/components/CardProduct/CardProduct.vue';
 import ButtonIcon from '@/components/ButtonIcon/ButtonIcon.vue';
 import { API_BASE_URL } from '@/utils/api';
 import type { Product } from '@/types/interfaces';
-import Loading from '@/components/Loading/Loading.vue';
+import AppLoading from '@/components/AppLoading/AppLoading.vue';
 
 const wishlist = ref<Product[]>([]);
 const isLoading = ref<boolean>(false);

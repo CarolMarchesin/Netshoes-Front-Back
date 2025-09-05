@@ -1,5 +1,5 @@
 <template>
-    <Card class="card">
+    <BaseCard class="card">
         <template #default>
             <div class="content-image">
                 <slot name="button" />
@@ -13,13 +13,13 @@
             <div class="price-in-cents">{{ formatCurrency(priceInCents) }}</div>
             <div class="sale-price-in-cents">{{ formatCurrency(salePriceInCents) }}</div>
         </template>
-    </Card>
+    </BaseCard>
 </template>
 
 <script setup lang="ts">
-import Card from '../Card/Card.vue';
 import RatingIcon from '../RatingIcon/RatingIcon.vue';
 import formatCurrency from '../../utils/formatCurrency';
+import BaseCard from '../BaseCard/BaseCard.vue';
 
 export interface CardProductProps {
     title: string;

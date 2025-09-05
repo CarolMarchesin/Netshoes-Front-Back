@@ -5,7 +5,7 @@ class ProductController {
     try {
       const products = await productService.getAllProducts();
       res.status(200).json(products);
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Error fetching products' });
     }
   }
@@ -14,7 +14,7 @@ class ProductController {
     try {
       const products = await productService.getProductsByCodes(req.body.codes);
       res.status(200).json(products);
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Error fetching products by codes' });
     }
   }

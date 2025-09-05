@@ -7,7 +7,7 @@
 
             <div class="menu-popover" @mouseenter="handlePopoverEnter" @mouseleave="handlePopoverLeave">
                 <ButtonIcon icon="account_circle" :handleClick="handleProfileClick" />
-                <Popover :visible="isOpenPopover">
+                <AppPopover :visible="isOpenPopover">
                     <template #item>
                         <div class="item-popover">
                             <router-link v-for="item in userMenuItems" :key="item" :to="`/`" class="nav-item-popover">
@@ -15,7 +15,7 @@
                             </router-link>
                         </div>
                     </template>
-                </Popover>
+                </AppPopover>
             </div>
         </div>
     </div>
@@ -27,8 +27,8 @@ import ButtonIcon from '../ButtonIcon/ButtonIcon.vue';
 import Logo from '../../assets/images/logo.svg';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import Popover from '../Popover/Popover.vue';
 import userMenuItems from '../../variables/userMenuItems';
+import AppPopover from '../AppPopover/AppPopover.vue';
 
 const router = useRouter();
 const isOpenPopover = ref(false);

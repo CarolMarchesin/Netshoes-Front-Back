@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Home from '../pages/Home.vue';
+import HomePage from '../pages/HomePage.vue';
 import CardProduct from '../components/CardProduct/CardProduct.vue';
 import ButtonIcon from '../components/ButtonIcon/ButtonIcon.vue';
 
@@ -33,11 +33,11 @@ vi.stubGlobal('fetch', vi.fn(async () => ({
   json: async () => ({ products: mockProducts })
 })));
 
-describe('Home.vue', () => {
+describe('HomePage.vue', () => {
   let wrapper;
 
   beforeEach(async () => {
-    wrapper = mount(Home, {
+    wrapper = mount(HomePage, {
       global: {
         components: { CardProduct, ButtonIcon }
       }
@@ -61,7 +61,7 @@ describe('Home.vue', () => {
     const { getLocalStorage } = await import('../utils/localStorage');
 
     getLocalStorage.mockReturnValue(['1']);
-    wrapper = mount(Home, {
+    wrapper = mount(HomePage, {
       global: { components: { CardProduct, ButtonIcon } }
     });
     await new Promise(resolve => setTimeout(resolve));

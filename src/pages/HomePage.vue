@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Loading v-if="isLoading" />
+        <AppLoading v-if="isLoading" />
 
         <div class="home" v-else>
             <div v-for="value in products" :key="value?.code">
@@ -25,7 +25,7 @@ import { onMounted, ref } from 'vue';
 import { setLocalStorage, getLocalStorage } from '../utils/localStorage';
 import { API_BASE_URL } from '@/utils/api';
 import type { Product } from '@/types/interfaces';
-import Loading from '@/components/Loading/Loading.vue';
+import AppLoading from '@/components/AppLoading/AppLoading.vue';
 
 export interface WishlistState {
     [code: string]: boolean;

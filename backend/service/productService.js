@@ -5,7 +5,7 @@ class ProductService {
         try {
             const data = await readFile(new URL('../data/products.json', import.meta.url));
             return JSON.parse(data);
-        } catch (error) {
+        } catch {
             throw new Error('Failed to read data');
         }
     }
@@ -14,7 +14,7 @@ class ProductService {
         try {
             const allProducts = await this.getAllProducts();
             return allProducts.products.filter(product => codes.map(String).includes(String(product.code)));
-        } catch (error) {
+        } catch {
             throw new Error('Failed to fetch products by codes');
         }
     }

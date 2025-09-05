@@ -1,20 +1,20 @@
 <template>
-  <Header />
+  <AppHeader />
 
   <div class="container">
-    <Navbar :links="links" />
+    <AppNavbar :links="links" />
     <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import Header from './components/Header/Header.vue';
-import Navbar from './components/Navbar/Navbar.vue';
 import { ref, watch } from 'vue';
+import AppHeader from './components/AppHeader/AppHeader.vue';
+import AppNavbar from './components/AppNavbar/AppNavbar.vue';
 
 const router = useRoute();
-let links = ref([
+const links = ref([
   { id: 0, title: 'Home', link: '/' }
 ]);
 
