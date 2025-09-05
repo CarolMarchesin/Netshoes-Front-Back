@@ -6,10 +6,12 @@
 
 <script setup lang="ts">
 
-withDefaults(defineProps<{
+export interface CardProps {
   width?: string;
   height?: string;
-}>(), {
+}
+
+withDefaults(defineProps<CardProps>(), {
   width: '180px',
   height: '230px'
 });
@@ -19,8 +21,8 @@ withDefaults(defineProps<{
 <style lang="scss" scoped>
 .card {
   border: 2px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  box-shadow: 4px 2px 7px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 2px 10px 16px 10px;
+  box-shadow: 4px 2px 7px rgba(0, 0, 0, 0.4);
 }
 </style>
