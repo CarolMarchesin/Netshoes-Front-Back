@@ -25,24 +25,19 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { getLocalStorage, setLocalStorage } from '../utils/localStorage';
 import CardProduct from '@/components/CardProduct/CardProduct.vue';
 import ButtonIcon from '@/components/ButtonIcon/ButtonIcon.vue';
 import { API_BASE_URL } from '@/utils/api';
-import type { Product } from '@/types/interfaces';
 import AppLoading from '@/components/AppLoading/AppLoading.vue';
+import { useWishlist } from '@/hooks/useWishlist';
 
-const wishlist = ref<Product[]>([]);
+const { wishlist, removeFromWishlist, getItemsWishlist } = useWishlist();
 const isLoading = ref<boolean>(false);
-
-onMounted(() => {
-  start();
-});
 
 const start = async () => {
   try {
     isLoading.value = true;
-    const payload = getLocalStorage('wishlist') || [];
+    const payload = getItemsWishlist();
 
     const response = await fetch(`${API_BASE_URL}/products/codes`, {
       method: 'POST',
@@ -64,17 +59,9 @@ const start = async () => {
   }
 };
 
-const removeFromWishlist = (item: Product): void => {
-  wishlist.value = wishlist.value.filter(product => product.code !== item.code);
-  removeLocalStorageWishlist(item.code);
-};
-
-const removeLocalStorageWishlist = (code: string): void => {
-  let itemsWishlist: string[] = getLocalStorage('wishlist') || [];
-  itemsWishlist = itemsWishlist.filter((item: string) => item !== code);
-  setLocalStorage('wishlist', itemsWishlist);
-};
-
+onMounted(() => {
+  start();
+});
 </script>
 
 <style lang="scss" scoped>

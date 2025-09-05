@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-import WishlistPage from '@/pages/WishlistPage.vue';
 import HomePage from '@/pages/HomePage.vue';
 
 const router = createRouter({
@@ -14,7 +12,7 @@ const router = createRouter({
     {
       path: '/wishlist',
       name: 'Wishlist',
-      component: WishlistPage,
+      component: () => import('@/pages/WishlistPage.vue'),
     },
   ],
 })

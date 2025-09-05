@@ -9,7 +9,7 @@
                     <template #button>
                         <ButtonIcon icon="favorite"
                             :class="'custom-button' + (isCheckWishlist[value?.code] ? ' active' : '')" iconSize="18px"
-                            :handleClick="() => handleFavoriteClick(value?.code)" />
+                            :handleClick="() => handleToggleWishlist(value?.code)" />
                     </template>
                 </CardProduct>
             </div>
@@ -22,18 +22,19 @@
 import ButtonIcon from '@/components/ButtonIcon/ButtonIcon.vue';
 import CardProduct from '@/components/CardProduct/CardProduct.vue';
 import { onMounted, ref } from 'vue';
-import { setLocalStorage, getLocalStorage } from '../utils/localStorage';
 import { API_BASE_URL } from '@/utils/api';
 import type { Product } from '@/types/interfaces';
 import AppLoading from '@/components/AppLoading/AppLoading.vue';
+import { useWishlist } from '@/hooks/useWishlist';
 
 export interface WishlistState {
     [code: string]: boolean;
 }
 
 const products = ref<Product[]>([]);
-const isCheckWishlist = ref<WishlistState>({});
 const isLoading = ref<boolean>(false);
+
+const { isCheckWishlist, validateWishlist, handleToggleWishlist } = useWishlist();
 
 const start = async (): Promise<void> => {
     try {
@@ -50,33 +51,10 @@ const start = async (): Promise<void> => {
     }
 };
 
-const validateWishlist = (): void => {
-    const itemsWishlist: string[] = getLocalStorage('wishlist') || [];
-    itemsWishlist.forEach(item => {
-        isCheckWishlist.value[item] = true;
-    });
-};
-
 onMounted(() => {
     start();
     validateWishlist();
 });
-
-const handleFavoriteClick = (code: string): void => {
-    isCheckWishlist.value[code] = !isCheckWishlist.value[code];
-
-    let itemsWishlist: string[] = getLocalStorage('wishlist') || [];
-
-    if (isCheckWishlist.value[code]) {
-        if (!itemsWishlist.includes(code)) {
-            itemsWishlist.push(code);
-            setLocalStorage('wishlist', itemsWishlist);
-        }
-    } else {
-        itemsWishlist = itemsWishlist.filter(item => item !== code);
-        setLocalStorage('wishlist', itemsWishlist);
-    }
-};
 </script>
 
 <style lang="scss" scoped>
