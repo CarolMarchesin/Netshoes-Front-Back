@@ -1,7 +1,7 @@
 <template>
-  <button class="button-icon">
-    <span class="material-symbols-outlined">{{ props.icon }}</span>
-    <span>{{ props.label }}</span>
+  <button class="button-icon" @click="handleClick">
+    <span class="material-symbols-outlined" :style="{ fontSize: iconSize }">{{ icon }}</span>
+    <div v-if="label" class="label">{{ label }}</div>
   </button>
 </template>
 
@@ -9,10 +9,14 @@
 
 import { defineProps } from 'vue';
 
-const props = defineProps<{
+export interface ButtonIconProps {
   icon: string;
   label?: string;
-}>();
+  iconSize?: string;
+  handleClick?: () => void;
+}
+
+defineProps<ButtonIconProps>();
 
 </script>
 
@@ -21,16 +25,20 @@ const props = defineProps<{
   background: none;
   border: none;
   color: white;
-  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
   font-weight: bold;
-  font-size: 12px;
-  gap: 0.3rem;
 }
 
-.button-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.label {
+  margin-left: 0.5rem;
 }
+
+@media (max-width: 320px) {
+  .label {
+    display: none;
+  }
+}
+
 </style>
