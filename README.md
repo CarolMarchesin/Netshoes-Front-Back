@@ -1,8 +1,7 @@
 # teste-frontend
 
-> Replica do site Netshoes
+> Replica do site Netshoes <br/>
 > Hospedagem do site em: https://teste-frontend-7fdc.onrender.com/
-
 ---
 
 ## 📦 Sobre o Projeto
@@ -46,7 +45,6 @@ npm install
 
 ### 2. Inicie o backend e o frontend
 ```bash
-cd ..
 npm run start
 ```
 
@@ -60,5 +58,4 @@ Para rodar os testes:
 ```bash
 npm run test:unit
 ```
-
 ---
