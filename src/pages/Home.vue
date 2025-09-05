@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-        <div class="home">
+        <Loading v-if="isLoading" />
+
+        <div class="home" v-else>
             <div v-for="value in products" :key="value?.code">
                 <CardProduct :title="value?.name" :image="value?.image" :rating="value?.rating"
                     :priceInCents="value?.priceInCents" :salePriceInCents="value?.salePriceInCents">
@@ -23,6 +25,7 @@ import { onMounted, ref } from 'vue';
 import { setLocalStorage, getLocalStorage } from '../utils/localStorage';
 import { API_BASE_URL } from '@/utils/api';
 import type { Product } from '@/types/interfaces';
+import Loading from '@/components/Loading/Loading.vue';
 
 export interface WishlistState {
     [code: string]: boolean;
@@ -30,9 +33,11 @@ export interface WishlistState {
 
 const products = ref<Product[]>([]);
 const isCheckWishlist = ref<WishlistState>({});
+const isLoading = ref<boolean>(false);
 
 const start = async (): Promise<void> => {
     try {
+        isLoading.value = true;
         const response = await fetch(`${API_BASE_URL}/products`);
         if (response?.status === 200) {
             const data = await response.json();
@@ -40,6 +45,8 @@ const start = async (): Promise<void> => {
         }
     } catch (error) {
         console.error('Error fetching products:', error);
+    } finally {
+        isLoading.value = false;
     }
 };
 

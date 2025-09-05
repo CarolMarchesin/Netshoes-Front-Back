@@ -1,14 +1,18 @@
 <template>
   <div class="container">
-    <div class="wishlist" v-if="wishlist.length > 0">
-      <div v-for="item in wishlist" :key="item?.code">
-        <CardProduct :title="item?.name" :image="item?.image" :rating="item?.rating" :priceInCents="item?.priceInCents"
-          :salePriceInCents="item?.salePriceInCents">
-          <template #button>
-            <ButtonIcon icon="close" :class="'custom-button'" iconSize="20px"
-              :handleClick="() => removeFromWishlist(item)" />
-          </template>
-        </CardProduct>
+    <Loading v-if="isLoading" />
+
+    <div v-else-if="!isLoading && wishlist.length > 0" class="header">
+      <div class="wishlist" v-if="wishlist.length > 0">
+        <div v-for="item in wishlist" :key="item?.code">
+          <CardProduct :title="item?.name" :image="item?.image" :rating="item?.rating"
+            :priceInCents="item?.priceInCents" :salePriceInCents="item?.salePriceInCents">
+            <template #button>
+              <ButtonIcon icon="close" :class="'custom-button'" iconSize="20px"
+                :handleClick="() => removeFromWishlist(item)" />
+            </template>
+          </CardProduct>
+        </div>
       </div>
     </div>
 
@@ -26,8 +30,10 @@ import CardProduct from '@/components/CardProduct/CardProduct.vue';
 import ButtonIcon from '@/components/ButtonIcon/ButtonIcon.vue';
 import { API_BASE_URL } from '@/utils/api';
 import type { Product } from '@/types/interfaces';
+import Loading from '@/components/Loading/Loading.vue';
 
 const wishlist = ref<Product[]>([]);
+const isLoading = ref<boolean>(false);
 
 onMounted(() => {
   start();
@@ -35,6 +41,7 @@ onMounted(() => {
 
 const start = async () => {
   try {
+    isLoading.value = true;
     const payload = getLocalStorage('wishlist') || [];
 
     const response = await fetch(`${API_BASE_URL}/products/codes`, {
@@ -51,6 +58,9 @@ const start = async () => {
     }
   } catch (err) {
     console.error('Error fetching favorite products:', err);
+  }
+  finally {
+    isLoading.value = false;
   }
 };
 
