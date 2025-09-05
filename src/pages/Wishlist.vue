@@ -107,7 +107,25 @@ const removeLocalStorageWishlist = (code: string): void => {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
+  .wishlist {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 400px;
+    margin: 10px auto;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .wishlist {
+    grid-template-columns: 1fr;
+    max-width: 220px;
+    margin: 10px auto;
+    gap: 1rem;
+    justify-content: center;
+  }
+
   .empty-state-text {
     font-size: 18px;
   }

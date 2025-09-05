@@ -107,7 +107,7 @@ const handleFavoriteClick = (code: string): void => {
         grid-template-columns: repeat(2, 1fr);
         max-width: 400px;
         margin: 10px auto;
-        gap: 0.5rem;
+        gap: 1rem;
         justify-content: center;
     }
 }
@@ -117,7 +117,7 @@ const handleFavoriteClick = (code: string): void => {
         grid-template-columns: 1fr;
         max-width: 220px;
         margin: 10px auto;
-        gap: 0.5rem;
+        gap: 1rem;
         justify-content: center;
     }
 }
